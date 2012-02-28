@@ -22,14 +22,13 @@ Then configure it via config/trinidad.rb:
       ...
       config.extensions = {
         threaded_resque: {
-          setup: './config/setup_resque_workers', # will be required before starting the workers
+          require: './config/setup_resque_workers', # will be required before starting the workers, setup Resque and require the jobs here
           queues: {
-            # syntax: "queue name: number of workers"
-            # the "all" queue is an alias for "*"
-            # default is "all: 1"
-            all: 3,
-            high: 2,
-            low: 1
+            # hash key is queue name
+            # hash value is the number of workers consuming that queue
+            # default: '*' => 1
+            io_bound: 20,
+            cpu_bound: 3,
           }
         }
       }
@@ -47,3 +46,4 @@ Note that becasue JRuby can't fork you want to have well behaved workers, watch 
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+

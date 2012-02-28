@@ -1,3 +1,5 @@
+require_relative "worker"
+
 module Trinidad
   module Extensions
     module ThreadedResque
@@ -7,7 +9,6 @@ module Trinidad
 
         def initialize(options = {})
           @options = options
-          require @options[:setup] if @options[:setup]
         end
 
         def lifecycleEvent(event)
@@ -20,24 +21,30 @@ module Trinidad
         end
 
         def start_workers
+          pre_require
           @workers = create_workers
           @threads = create_threads
         end
 
         def stop_workers
-          @workers.each { |w| w.shutdown }
-          @threads.each { |t| t.join }
+          @workers.each { |w| w.shutdown } if @workers
+          @threads.each { |t| t.join } if @threads
         end
 
         private 
+        def pre_require
+          if @options[:require]
+            require @options[:require] 
+          else
+            raise "You probably want to require something before starting workers"
+          end
+        end
+
         def create_workers
-          queues = @options[:queues] || { :all => 1 }
+          queues = @options[:queues] || { '*' => 1 }
           queues.map do |queue, count|
-            queue = '*' if queue.to_s == 'all'
             count.to_i.times.map do 
-              worker = Resque::Worker.new(queue)
-              worker.cant_fork = true # fork is a noop in jruby
-              worker
+              ThreadedResque::Worker.new(queue.to_s)
             end
           end.flatten
         end
