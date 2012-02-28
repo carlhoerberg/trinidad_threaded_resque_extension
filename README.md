@@ -18,9 +18,10 @@ Then configure it via config/trinidad.rb:
 
     require 'bundler/setup'
     Trinidad.configure |config|
+      config.jruby_max_runtimes = 1
       ...
       config.extensions = {
-        threaded_resque = {
+        threaded_resque: {
           setup: './config/setup_resque_workers', # will be required before starting the workers
           queues: {
             # syntax: "queue name: number of workers"
@@ -37,7 +38,7 @@ Then configure it via config/trinidad.rb:
 
 Start trinidad and enjoy the low memory usage while having high concurrency.
 
-Note that becasue JRuby can't fork you want to have well behaved workers, watch out for memory leakage.. 
+Note that becasue JRuby can't fork you want to have well behaved workers, watch out for memory leakage. Naturally your workers have to be thread safe.
 
 ## Contributing
 
