@@ -36,7 +36,7 @@ module Trinidad
           if @options[:require]
             require @options[:require] 
           else
-            raise "You probably want to require something before starting workers"
+            raise "You probably want to require something before starting the workers"
           end
         end
 
