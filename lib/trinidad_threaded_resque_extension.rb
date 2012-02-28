@@ -1,14 +1,14 @@
 require 'resque'
-require "trinidad_threaded_resque_extension/version"
-require "trinidad_threaded_resque_extension/resque_disable_signal_handlers"
+require 'trinidad'
+require_relative "trinidad_threaded_resque_extension/version"
+require_relative "trinidad_threaded_resque_extension/resque_disable_signal_handlers"
 
 module Trinidad
   module Extensions
     module ThreadedResque
-
-      class ThreadedResqueLifecycleListner
+      class ThreadedResqueLifecycleListener
         include Trinidad::Tomcat::LifecycleListener
-        def initialize(options)
+        def initialize(options = {})
           @options = options
           require @options[:setup] if @options[:setup]
         end
@@ -32,6 +32,7 @@ module Trinidad
               Thread.new do
                 worker.work
               end
+              worker
             end
           end.flatten
         end

@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.version       = TrinidadThreadedResqueExtension::VERSION
 
   gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "json"
   gem.add_runtime_dependency "trinidad"
   gem.add_runtime_dependency "resque"
 end

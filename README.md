@@ -1,4 +1,4 @@
-# TrinidadThreadedResqueExtension
+# Trinidad Threaded Resque Extension
 
 Run Resque workers, threaded, within the Trinidad process. 
 
@@ -23,9 +23,9 @@ Then configure it via config/trinidad.rb:
         threaded_resque = {
           setup: './config/setup_resque_workers', # will be required before starting the workers
           queues: {
-            # "all" is an alias for "*"
+            # syntax: "queue name: number of workers"
+            # the "all" queue is an alias for "*"
             # default is "all: 1"
-            # syntax: queuename: number of workers
             all: 3,
             high: 2,
             low: 1
