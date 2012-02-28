@@ -6,5 +6,9 @@ module Resque
     alias :old_register_signal_handlers :register_signal_handlers
     def register_signal_handlers
     end
+
+    def to_s
+      @to_s ||= "#{hostname}:#{Process.pid}-#{Thread.current.object_id}:#{@queues.join(',')}"
+    end
   end
 end
