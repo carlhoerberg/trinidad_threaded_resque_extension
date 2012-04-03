@@ -16,11 +16,16 @@ And then execute:
 
 Then configure it via config/trinidad.rb:
 
-    require 'bundler/setup'
-    Trinidad.configure |config|
-      config.jruby_max_runtimes = 1
-      ...
-      config.extensions = {
+```ruby
+require 'bundler/setup'
+Trinidad.configure do |config|
+  config.jruby_min_runtimes = 1
+  config.jruby_max_runtimes = 1
+  ...
+  config.web_apps = {
+    default = {
+      rackup: 'config.ru'
+      extensions = {
         threaded_resque: {
           require: './config/setup_resque_workers', # will be required before starting the workers, setup Resque and require the jobs here
           queues: {
@@ -32,6 +37,10 @@ Then configure it via config/trinidad.rb:
           }
         }
       }
+    }
+  }
+end
+```
 
 ## Usage
 

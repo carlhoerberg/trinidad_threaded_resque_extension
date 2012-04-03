@@ -13,7 +13,7 @@ module Trinidad
 
         def lifecycleEvent(event)
           case event.type
-          when Trinidad::Tomcat::Lifecycle::BEFORE_START_EVENT
+          when Trinidad::Tomcat::Lifecycle::AFTER_START_EVENT
             start_workers
           when Trinidad::Tomcat::Lifecycle::BEFORE_STOP_EVENT
             stop_workers
